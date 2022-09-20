@@ -1,0 +1,78 @@
+#root {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+#user {
+    margin-left: auto;
+    margin-right: 100px;
+    display: grid; 
+    grid-template-rows: repeat(10, 30px); 
+    grid-template-columns: repeat(10, 30px);
+}
+#computer {
+    margin-left: 100px;
+    margin-right: auto;
+    display: grid; 
+    grid-template-rows: repeat(10, 30px); 
+    grid-template-columns: repeat(10, 30px);
+}
+
+.shoted {
+    border-style: solid;
+    background: gray !important;
+    border-color: red !important;
+    border-radius: 5px;
+    margin: 0;
+}
+
+  
+.available {
+    border-radius: 5px;
+    background: green;  
+    margin: 0;
+   }
+
+
+.killed {
+    border-style: solid;
+    background: rgb(255, 187, 0) !important;
+    border-radius: 5px;
+    margin: 0;
+}
+
+.kill {
+    border-style: solid;
+    border-color: rgb(230, 0, 0) !important;
+    background: rgba(150, 0, 0, 0.856) !important;
+    border-radius: 5px;
+    margin: 0;
+}
+
+.empty {
+    border-style: solid;
+    border-color: gray;
+    border-width: 1px;
+    border-radius: 2px;
+    margin: 1px;
+}
+
+.ship {
+    border-radius: 5px;
+    background: blue;
+    margin: 0;
+}
+
+.unavailable {
+    background: gray;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    margin: 2px;
+}
+
+header {
+    text-align: center;
+}
+body {
+    text-align: center;
+}
