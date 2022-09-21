@@ -41,8 +41,8 @@ let game = () => {
   build("user");
   build("computer");
   setMouseEvents();
-  var userShips = buildShips("user")
-  var computerShips = buildShips("computer");
+  let userShips = buildShips("user")
+  let computerShips = buildShips("computer");
   startButton.onclick = () => {
     startShoot(userShips, computerShips)
     startButton.remove();
@@ -118,7 +118,7 @@ let layoutShips = (ships) => {
   let arrayUsedCords = [];
   for (let i = 0; i < ships.length; i++) {
     const ship = ships[i];
-    var isPossibleToFill = false;
+    let isPossibleToFill = false;
     while (isPossibleToFill === false) {
       let coordinateStartShip = getRandomInt(0, 100);
       let coordObj = attrToCoord(coordinateStartShip);
@@ -127,9 +127,9 @@ let layoutShips = (ships) => {
         continue
       }
       let tempCords = [];
-      var counter = ship.isVertical ? 10 : 1;
+      let counter = ship.isVertical ? 10 : 1;
       for (let i = 0, j = 0; i < ship.length; i++, j += counter) {
-        var k = coordinateStartShip + j;
+        let k = coordinateStartShip + j;
         tempCords.push(k);
       }
 
@@ -177,7 +177,7 @@ let getRandomInt = (minimum, maximum) => {
 }
 
 let attrToCoord = (position) => {
-  var normalize = normalizeCoordinates(position)
+  let normalize = normalizeCoordinates(position)
   const y = normalize[0];
   const x = normalize[1];
   return { x: +x, y: +y };
@@ -193,8 +193,8 @@ let isVerticalDirection = () => {
   return direction;
 }
 
-var isUserShoot = true
-var computerShoots = []
+let isUserShoot = true
+let computerShoots = []
 
 let startShoot = (userShips, computerShips) => {
   shoot("user", userShips, computerShips)
@@ -222,7 +222,7 @@ let checkShoot = (ships, target, coord, area) => {
           })
 
           ship.isSinked = true;
-          var countSinked = 0
+          let countSinked = 0
           ships.forEach((ship) => {
             if (ship.isSinked) {
               countSinked++;
@@ -242,15 +242,15 @@ let checkShoot = (ships, target, coord, area) => {
 let userShoot = (computerShips, userShips) => {
   const ships = computerShips;
   isUserShoot = true;
-  var computerArea = document.getElementById("computer");
+  let computerArea = document.getElementById("computer");
   computerArea.addEventListener("click", function (event) {
     if ((isUserShoot === false)) {
       return;
     }
-    var coord = event.target.dataset["coords"];
+    let coord = event.target.dataset["coords"];
     if (coord != undefined) {
       if (event.target.classList.contains("available") || event.target.classList.contains("ship")) {
-        var shootResult = checkShoot(ships, event.target, parseInt(coord), computerArea);
+        let shootResult = checkShoot(ships, event.target, parseInt(coord), computerArea);
         if (shootResult.isAllSinked) {
           finishGame("user");
         } else {
@@ -292,37 +292,37 @@ let computerShoot = (userShips, computerShips) => {
   }
 }
 
-  let shoot = (player, userShips, computerShips) => {
-    if (player === "user") {
-      userShoot(computerShips, userShips);
-    } else {
-      setTimeout(() => {
-        computerShoot(userShips, computerShips);
-      }, 300);
-    }
-    return
+let shoot = (player, userShips, computerShips) => {
+  if (player === "user") {
+    userShoot(computerShips, userShips);
+  } else {
+    setTimeout(() => {
+      computerShoot(userShips, computerShips);
+    }, 300);
   }
+  return
+}
 
 
-  let paintedField = () => {
-    if (div.className === killed) {
-
-    }
-  }
-
-
-  function finishGame(winnerName) {
-    const message = document.createElement("h3");
-    message.classList.add("message")
-    message.innerHTML = `${winnerName} WIN! ! !`;
-    const newGameBtn = document.createElement("button");
-    newGameBtn.innerHTML = "START NEW GAME";
-    document.body.append(message);
-    document.body.append(newGameBtn);
-    newGameBtn.classList.add("buttonStart")
-    newGameBtn.onclick = () => document.location.reload();
+let paintedField = () => {
+  if (div.className === killed) {
 
   }
+}
 
 
-  game()
+function finishGame(winnerName) {
+  const message = document.createElement("h3");
+  message.classList.add("message")
+  message.innerHTML = `${winnerName} WIN! ! !`;
+  const newGameBtn = document.createElement("button");
+  newGameBtn.innerHTML = "START NEW GAME";
+  document.body.append(message);
+  document.body.append(newGameBtn);
+  newGameBtn.classList.add("buttonStart")
+  newGameBtn.onclick = () => document.location.reload();
+
+}
+
+
+game()
