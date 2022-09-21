@@ -1,35 +1,29 @@
 let config = [
   {
-    name: "4-deck",
     length: 4,
     count: 1
   },
 
   {
-    name: "3-deck",
     length: 3,
     count: 2
   },
 
   {
-    name: "2-deck",
     length: 2,
     count: 3
   },
 
   {
-    name: "1-deck",
     length: 1,
     count: 4
   }
 ]
 
-const startButton = document.createElement('button');
-startButton.innerHTML = 'START GAME';
+const startButton = document.querySelector(".buttonStart");
 
-document.body.append(startButton);
 
-function build(name) {
+let build = (name) => {
   const field = document.createElement("div");
   field.id = name;
   root.append(field);
@@ -39,70 +33,76 @@ function build(name) {
     div.dataset["coords"] = i;
     field.append(div);
   }
+  return
 }
 
-function game() {
-  build('user');
-  build('computer');
+
+let game = () => {
+  build("user");
+  build("computer");
   setMouseEvents();
-  var userShips = buildShips('user')
-  var computerShips = buildShips('computer');
+  var userShips = buildShips("user")
+  var computerShips = buildShips("computer");
   startButton.onclick = () => {
     startShoot(userShips, computerShips)
     startButton.remove();
   }
+  return
 }
 
-function buildShips(player) {
+let buildShips = (player) => {
   let ships = createShips(config);
   console.log(ships);
   layoutShips(ships);
-  //if(player == 'user'){
-  let user = document.getElementById(player)
-  ships.forEach((ship) => {
-    ship.coords.forEach((coord) => {
-      user.querySelector(`[data-coords="${coord}"]`).className = 'ship';
-    })
-  });
-  //}
+  if (player === user) {
+    let user = document.getElementById(player)
+    ships.forEach((ship) => {
+      ship.coords.forEach((coord) => {
+        user.querySelector(`[data-coords="${coord}"]`).className = "ship";
+      })
+    });
+  }
   return ships
 }
 
-function setMouseEvents() {
+let setMouseEvents = () => {
   const userCell = document.getElementById("user");
   const computerCell = document.getElementById("computer");
   userCell.onmouseover = computeMouseOver;
   computerCell.onmouseover = computeMouseOver;
   userCell.onmouseout = computeMouseOut
   computerCell.onmouseout = computeMouseOut
+  return
 }
 
-function computeMouseOut(event) {
-  if (event.target.dataset["coords"] != undefined) {
-    if (event.target.classList.contains("available")) {
-      event.target.classList.remove("available")
-      event.target.classList.add("empty")
-    }
+let computeMouseOut = (event) => {
+  if ((event.target.dataset["coords"] != undefined) && (event.target.classList.contains("available"))) {
+    event.target.classList.remove("available")
+    event.target.classList.add("empty")
   }
-}
-function computeMouseOver(event) {
-  if (event.target.dataset["coords"] != undefined) {
-    if (event.target.classList.contains("empty")) {
-      event.target.classList.remove("empty")
-      event.target.classList.add("available")
-    }
-  }
+  return
 }
 
-function createShips(config) {
+
+
+let computeMouseOver = (event) => {
+  if ((event.target.dataset["coords"] != undefined) && (event.target.classList.contains("empty"))) {
+    event.target.classList.remove("empty")
+    event.target.classList.add("available")
+  }
+  return
+}
+
+
+let createShips = (config) => {
 
   let ships = [];
   for (let i = 0; i < config.length; i++) {
-    let c = config[i];
-    for (let j = 0; j < c.count; j++) {
+    let storageData = config[i];
+    for (let j = 0; j < storageData.count; j++) {
       let ship = {
-        name: c.name,
-        length: c.length,
+        name: storageData.name,
+        length: storageData.length,
         coords: [],
         isVertical: isVerticalDirection(),
         isSinked: false,
@@ -114,13 +114,12 @@ function createShips(config) {
   return ships;
 }
 
-function layoutShips(ships) {
+let layoutShips = (ships) => {
   let arrayUsedCords = [];
-  var ok = 0
-  for (let m = 0; m < ships.length; m++) {
-    const ship = ships[m];
+  for (let i = 0; i < ships.length; i++) {
+    const ship = ships[i];
     var isPossibleToFill = false;
-    while (isPossibleToFill == false) {
+    while (isPossibleToFill === false) {
       let coordinateStartShip = getRandomInt(0, 100);
       let coordObj = attrToCoord(coordinateStartShip);
       let isFitOnField = !ship.isVertical ? ship.length + coordObj.x <= 10 : ship.length + coordObj.y <= 10
@@ -137,7 +136,7 @@ function layoutShips(ships) {
       isPossibleToFill = true;
       for (let i = 0; i < arrayUsedCords.length; i++) {
         for (let j = 0; j < tempCords.length; j++) {
-          if (arrayUsedCords[i] == tempCords[j]) {
+          if (arrayUsedCords[i] === tempCords[j]) {
             isPossibleToFill = false;
             break;
           }
@@ -168,58 +167,60 @@ function layoutShips(ships) {
       }
     }
   }
+  return
 }
 
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
+let getRandomInt = (minimum, maximum) => {
+  min = Math.ceil(minimum);
+  max = Math.floor(maximum);
   return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
 }
 
-function attrToCoord(position) {
+let attrToCoord = (position) => {
   var normalize = normalizeCoordinates(position)
   const y = normalize[0];
   const x = normalize[1];
   return { x: +x, y: +y };
 }
 
-function normalizeCoordinates(coordinates) {
+let normalizeCoordinates = (coordinates) => {
   coordinates = `${coordinates}`
   return coordinates.length < 2 ? `0${coordinates}` : `${coordinates}`;
 }
 
-function isVerticalDirection() {
-  const direction = Math.random() >= 0.5 ? true : false;
+let isVerticalDirection = () => {
+  const direction = Math.random() >= 0.5;
   return direction;
 }
 
 var isUserShoot = true
 var computerShoots = []
 
-function startShoot(userShips, computerShips) {
-  shoot('user', userShips, computerShips)
+let startShoot = (userShips, computerShips) => {
+  shoot("user", userShips, computerShips)
   userShoot()
   //userShoot(computerShips)
+  return
 }
 
 
-
-function checkShoot(ships, target, coord, area) {
-  var isShootInTarget = false
-  var isAllSinked = false
+let checkShoot = (ships, target, coord, area) => {
+  isShootInTarget = false;
+  let isAllSinked = false;
   ships.forEach((ship) => {
     for (let i = 0; i < ship.coords.length; i++) {
       const position = ship.coords[i];
-      if (position == coord) {
+      if (position === coord) {
         ship.coordsShoot.push(position)
-        target.className = "killed"
+        target.className = "wounded"
         isShootInTarget = true;
-        if (ship.coords.length == ship.coordsShoot.length) {
+        if (ship.coords.length === ship.coordsShoot.length) {
           ship.coords.forEach((position) => {
             //target.classList.clear()
             let element = area.querySelector(`[data-coords="${position}"]`);
-            element.className = 'kill';
+            element.className = "killed";
           })
+
           ship.isSinked = true;
           var countSinked = 0
           ships.forEach((ship) => {
@@ -227,124 +228,101 @@ function checkShoot(ships, target, coord, area) {
               countSinked++;
             }
           })
-          isAllSinked = ships.length == countSinked
+          isAllSinked = ships.length === countSinked
         }
       }
     }
   });
-  if (isShootInTarget == false) {
+  if (!isShootInTarget) {
     target.className = "shoted"
   }
-  return isAllSinked
+  return { isAllSinked: isAllSinked, isShootInTarget: isShootInTarget }
 }
 
-function userShoot(computerShips, userShips) {
-  var ships = computerShips;
+let userShoot = (computerShips, userShips) => {
+  const ships = computerShips;
   isUserShoot = true;
   var computerArea = document.getElementById("computer");
   computerArea.addEventListener("click", function (event) {
-    if (isUserShoot == false) {
+    if ((isUserShoot === false)) {
       return;
     }
     var coord = event.target.dataset["coords"];
     if (coord != undefined) {
       if (event.target.classList.contains("available") || event.target.classList.contains("ship")) {
-        var isAllSinked = checkShoot(ships, event.target, parseInt(coord), computerArea);
-        if (isAllSinked) {
-          finishGame('user');
+        var shootResult = checkShoot(ships, event.target, parseInt(coord), computerArea);
+        if (shootResult.isAllSinked) {
+          finishGame("user");
         } else {
           isUserShoot = false;
-          shoot('computer', userShips, computerShips);
+          if (shootResult.isShootInTarget) {
+            shoot("user", userShips, computerShips);
+          } else {
+            shoot("computer", userShips, computerShips)
+          }
         }
       }
       computerArea.removeEventListener("click", this);
     }
   });
+  return
 }
 
-function computerShoot(userShips, computerShips) {
+let computerShoot = (userShips, computerShips) => {
   isPossibleToShoot = false;
-  while (isPossibleToShoot == false) {
-    var random = getRandomInt(0, 100);
-    if (computerShoots.includes(random)) {
+  while (isPossibleToShoot === false) {
+    let random = getRandomInt(0, 100);
+    if ((computerShoots.includes(random))) {
       continue;
     }
     isPossibleToShoot = true;
     computerShoots.push(random);
-    var userArea = document.getElementById("user");
-    var isAllSinked = checkShoot(userShips, userArea.querySelector(`[data-coords="${random}"]`), random, userArea);
-    if (isAllSinked) {
-      finishGame('computer');
+    let userArea = document.getElementById("user");
+    let shootResult = checkShoot(userShips, userArea.querySelector(`[data-coords="${random}"]`), random, userArea);
+    if (shootResult.isAllSinked) {
+      finishGame("computer");
     } else {
-      shoot('user', userShips, computerShips, userArea);
+      if (shootResult.isShootInTarget) {
+        shoot("computer", userShips, computerShips);
+      } else {
+        shoot('user', userShips, computerShips);
+      }
+    }
+    return
+  }
+}
+
+  let shoot = (player, userShips, computerShips) => {
+    if (player === "user") {
+      userShoot(computerShips, userShips);
+    } else {
+      setTimeout(() => {
+        computerShoot(userShips, computerShips);
+      }, 300);
+    }
+    return
+  }
+
+
+  let paintedField = () => {
+    if (div.className === killed) {
+
     }
   }
-}
 
-function shoot(player, userShips, computerShips) {
-  if (player == 'user') {
-    userShoot(computerShips, userShips);
-  } else {
-    setTimeout(() => {
-      computerShoot(userShips, computerShips);
-    }, 300);
+
+  function finishGame(winnerName) {
+    const message = document.createElement("h3");
+    message.classList.add("message")
+    message.innerHTML = `${winnerName} WIN! ! !`;
+    const newGameBtn = document.createElement("button");
+    newGameBtn.innerHTML = "START NEW GAME";
+    document.body.append(message);
+    document.body.append(newGameBtn);
+    newGameBtn.classList.add("buttonStart")
+    newGameBtn.onclick = () => document.location.reload();
+
   }
-}
-
-function finishGame(winnerName) {
-  const message = document.createElement('h3');
-  message.innerHTML = `${winnerName} WIN! ! !`;
-  const newGameBtn = document.createElement('button');
-  newGameBtn.innerHTML = 'START NEW GAME';
-  document.body.append(message);
-  document.body.append(newGameBtn);
-  newGameBtn.onclick = () => document.location.reload();
-}
 
 
-// function userShoot(computerShips) {
-//   var ships = computerShips;
-//   var computerArea = document.getElementById("computer");
-//   computerArea.addEventListener("click", function (event) {
-//     var coord = event.target.dataset["coords"];
-//     if (coord != undefined) {
-//       if (event.target.classList.contains("available") || event.target.classList.contains("ship")) {
-//         checkShoot(ships, event.target, parseInt(coord), computerArea);
-//       }
-//     }
-//   });
-// }
-
-// function checkShoot(ships, target, coord, area){
-//   var isShootInTarget = false
-//   ships.forEach((ship) => {
-//     for (let i = 0; i < ship.coords.length; i++) {
-//       const position = ship.coords[i];
-//       if(position == coord){
-//         ship.coordsShoot.push(position)
-//         target.className = "killed"
-//         isShootInTarget = true;
-//         if(ship.coords.length == ship.coordsShoot.length){
-//           ship.coords.forEach((position)=> {
-//             //target.classList.clear()
-//             let element = area.querySelector(`[data-coords="${position}"]`);
-//             element.className = 'kill';
-//           })
-//           ship.isSinked = true;
-//           var countSinked = 0
-//           ships.forEach((ship)=>{
-//               if(ship.isSinked){
-//                 countSinked++;
-//               }
-//           })
-//           isAllSinked = ships.length == countSinked
-//         }
-//       }
-//     }
-//   });
-//   if(isShootInTarget == false){
-//     target.className = "shoted"
-//   }
-// }
-
-game()
+  game()

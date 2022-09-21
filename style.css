@@ -1,46 +1,69 @@
+header {
+    text-align: center;
+    align-items: center;
+}
+
+body {
+    text-align: center;
+    align-items: center;
+}
+
+h1 {
+    letter-spacing: 1em;
+    color: black;
+    font-family: 'Roboco', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+}
+
 #root {
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
+
 #user {
     margin-left: auto;
     margin-right: 100px;
-    display: grid; 
-    grid-template-rows: repeat(10, 30px); 
+    display: grid;
+    grid-template-rows: repeat(10, 30px);
     grid-template-columns: repeat(10, 30px);
+    background: rgb(0, 204, 255);
 }
+
 #computer {
     margin-left: 100px;
     margin-right: auto;
-    display: grid; 
-    grid-template-rows: repeat(10, 30px); 
+    display: grid;
+    grid-template-rows: repeat(10, 30px);
     grid-template-columns: repeat(10, 30px);
+    background: rgb(0, 204, 255);
+
 }
 
 .shoted {
     border-style: solid;
-    background: gray !important;
-    border-color: red !important;
+    background: rgb(192, 42, 242) !important;
+    border-color: rgb(100, 21, 209) !important;
     border-radius: 5px;
     margin: 0;
 }
 
-  
+
 .available {
     border-radius: 5px;
-    background: green;  
+    background: rgb(63, 152, 224);
     margin: 0;
-   }
+}
 
 
-.killed {
+.wounded {
     border-style: solid;
-    background: rgb(255, 187, 0) !important;
+    background: rgb(223, 16, 58) !important;
     border-radius: 5px;
     margin: 0;
 }
 
-.kill {
+.killed {
     border-style: solid;
     border-color: rgb(230, 0, 0) !important;
     background: rgba(150, 0, 0, 0.856) !important;
@@ -49,30 +72,45 @@
 }
 
 .empty {
-    border-style: solid;
-    border-color: gray;
     border-width: 1px;
     border-radius: 2px;
     margin: 1px;
+    border: solid white;
 }
 
 .ship {
     border-radius: 5px;
-    background: blue;
+    background: rgb(65, 65, 238);
     margin: 0;
+    /* border: solid white; */
 }
 
 .unavailable {
-    background: gray;
+    background: rgb(43, 200, 224);
     border-style: solid;
     border-width: 1px;
     border-radius: 5px;
     margin: 2px;
 }
 
-header {
-    text-align: center;
+
+.buttonStart {
+    background: rgb(212, 14, 143);
+    border: 2px solid rgb(29, 188, 240);
+    border-radius: 0.8rem;
+    width: 160px;
+    height: 30px;
+    color: black;
+    font-family: 'Roboco', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+
 }
-body {
-    text-align: center;
+
+.message {
+    letter-spacing: 0.5em;
+    color: black;
+    font-family: 'Roboco', sans-serif;
+    font-style: normal;
+    font-weight: 600;
 }
