@@ -41,8 +41,8 @@ let game = () => {
   build("user");
   build("computer");
   setMouseEvents();
-  let userShips = buildShips("user")
-  let computerShips = buildShips("computer");
+  let userShips = buildShipsUser("user")
+  let computerShips = buildShipsComputer("computer");
   startButton.onclick = () => {
     startShoot(userShips, computerShips)
     startButton.remove();
@@ -50,7 +50,20 @@ let game = () => {
   return
 }
 
-let buildShips = (player) => {
+let buildShipsUser = (player) => {
+  let ships = createShips(config);
+  console.log(ships);
+  layoutShips(ships);
+  let user = document.getElementById(player)
+  ships.forEach((ship) => {
+    ship.coords.forEach((coord) => {
+      user.querySelector(`[data-coords="${coord}"]`).className = "ship";
+    })
+  });
+  return ships
+}
+
+let buildShipsComputer = (player) => {
   let ships = createShips(config);
   console.log(ships);
   layoutShips(ships);
@@ -64,6 +77,10 @@ let buildShips = (player) => {
   }
   return ships
 }
+
+
+
+
 
 let setMouseEvents = () => {
   const userCell = document.getElementById("user");
@@ -220,7 +237,124 @@ let checkShoot = (ships, target, coord, area) => {
             let element = area.querySelector(`[data-coords="${position}"]`);
             element.className = "killed";
           })
+          if (position === 0) {
+            let margin = [position + 10, position + 1, position + 11];
+            for (let i = 0; i < margin.length; i++) {
+              let cord = margin[i];
+              let d = area.querySelector(`[data-coords="${cord}"]`);
+              console.log(d)
+              if ((d.classList.contains("empty"))) {
+                d.className = "shoot";
+              }
+            }
+          }
+          if (position === 90) {
+            let margin = [position - 10, position - 9, position + 1];
+            for (let i = 0; i < margin.length; i++) {
+              let cord = margin[i];
+              let d = area.querySelector(`[data-coords="${cord}"]`);
+              console.log(d)
+              if ((d.classList.contains("empty"))) {
+                d.className = "shoot";
+              }
+            }
+          }
+          if (position === 9) {
+            let margin = [position - 1, position + 9, position + 10];
+            for (let i = 0; i < margin.length; i++) {
+              let cord = margin[i];
+              let d = area.querySelector(`[data-coords="${cord}"]`);
+              console.log(d)
+              if ((d.classList.contains("empty"))) {
+                d.className = "shoot";
+              }
+            }
+          }
+          let arr1 = [10, 20, 30, 40, 50, 60, 70, 80]
+          for (let i = 0; i < arr1.length; i++) {
+            if (position === arr1[i]) {
+              let margin = [position + 10, position + 1, position - 10, position - 9, position + 11];
+              for (let i = 0; i < margin.length; i++) {
+                let cord = margin[i];
+                let d = area.querySelector(`[data-coords="${cord}"]`);
+                console.log(d)
+                if ((d.classList.contains("empty"))) {
+                  d.className = "shoot";
+                }
+              }
+            }
+          }
+          let arr2 = [19, 29, 39, 49, 59, 69, 79, 89, 99]
+          for (let i = 0; i < arr2.length; i++) {
+            if (position === arr2[i]) {
+              let margin = [position - 1, position + 10, position - 11, position - 10];
+              for (let i = 0; i < margin.length; i++) {
+                const cord = margin[i];
+                let d = area.querySelector(`[data-coords="${cord}"]`);
+                console.log(d)
+                if ((d.classList.contains("empty"))) {
+                  d.className = "shoot";
+                }
+              }
+            }
+          }
 
+          let arr3 = [1, 8, 11, 18, 21, 28, 31, 38, 41, 48, 51, 58, 61, 68, 71, 78, 81, 88, 91, 98];
+          for (let i = 0; i < arr3.length; i++) {
+            if (position == arr3[i]) {
+              let margin = [position - 1, position + 10, position + 1, position - 10,
+              position - 11, position - 9, position + 9, position + 11];
+              for (let i = 0; i < margin.length; i++) {
+                let cord = margin[i];
+                let d = area.querySelector(`[data-coords="${cord}"]`);
+                console.log(d)
+                if ((d.classList.contains("empty"))) {
+                  d.className = "shoot";
+                }
+              }
+            }
+          }
+
+
+          // let arr4 = [1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17, 18,
+          //   21, 22, 23, 24, 25, 26, 27, 28, 31, 32, 33, 34, 35, 36, 37, 38, 41,
+          //   42, 43, 44, 45, 46, 47, 48, 51, 52, 53, 54, 55, 56, 57, 58, 61, 62,
+          //   63, 64, 65, 66, 67, 68, 71, 72, 73, 74, 75, 76, 77, 78, 81, 82, 83,
+          //   84, 85, 86, 87, 88, 91, 92, 93, 94, 95, 96, 97, 98];
+          // for (let i = 0; i < arr4.length; i++) {
+          //   if (position == arr4[i]) {
+          //     let margin = [position - 1, position + 10, position + 1, position - 10,
+          //     position - 11, position - 9, position + 9, position + 11];
+          //     for (let i = 0; i < margin.length; i++) {
+          //       let cord = margin[i];
+          //       let d = area.querySelector(`[data-coords="${cord}"]`);
+          //       console.log(d)
+          //       if ((d.classList.contains("empty"))) {
+          //         d.className = "shoot";
+          //       }
+          //     }
+          //   }
+          // }
+
+          let arr4 = [1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 13, 14, 15, 16, 17, 18,
+            21, 22, 23, 24, 25, 26, 27, 28, 31, 32, 33, 34, 35, 36, 37, 38, 41,
+            42, 43, 44, 45, 46, 47, 48, 51, 52, 53, 54, 55, 56, 57, 58, 61, 62,
+            63, 64, 65, 66, 67, 68, 71, 72, 73, 74, 75, 76, 77, 78, 81, 82, 83,
+            84, 85, 86, 87, 88, 91, 92, 93, 94, 95, 96, 97, 98];
+          for (let i = 0; i < arr4.length; i++) {
+            if (position == arr4[i]) {
+              let margin = [position - 1, position + 10, position + 1, position - 10,
+              position - 11, position - 9, position + 9, position + 11];
+              for (let i = 0; i < margin.length; i++) {
+                let cord = margin[i];
+                let d = area.querySelector(`[data-coords="${cord}"]`);
+                console.log(d)
+                if ((d.classList.contains("empty"))) {
+                  d.className = "shoot";
+                }
+              }
+            }
+          }
           ship.isSinked = true;
           let countSinked = 0
           ships.forEach((ship) => {
@@ -233,11 +367,13 @@ let checkShoot = (ships, target, coord, area) => {
       }
     }
   });
+
   if (!isShootInTarget) {
     target.className = "shoted"
   }
   return { isAllSinked: isAllSinked, isShootInTarget: isShootInTarget }
 }
+
 
 let userShoot = (computerShips, userShips) => {
   const ships = computerShips;
